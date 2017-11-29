@@ -29,7 +29,9 @@
 
 - name: Get EC2 Facts
   action: ec2_facts
-  when: collect_ec2_facts is defined and collect_ec2_facts
+  when:
+    - collect_ec2_facts is defined
+    - collect_ec2_facts
 
 - name: Set default private IP to default route IP address
   set_fact: private_ip="{{ ansible_default_ipv4.address }}"
@@ -41,13 +43,15 @@
   set_fact: private_ip="{{ ansible_ec2_local_ipv4 }}"
   when:
     - deployment_environment == "euca" or deployment_environment == "openstack"
-    - collect_ec2_facts is defined and collect_ec2_facts
+    - collect_ec2_facts is defined
+    - collect_ec2_facts
 
 - name: Set private hostname fact (EUCA/OpenStack)
   set_fact: private_hostname="{{ ansible_ec2_local_hostname }}"
   when:
     - deployment_environment == "euca" or deployment_environment == "openstack"
-    - collect_ec2_facts is defined and collect_ec2_facts
+    - collect_ec2_facts is defined
+    - collect_ec2_facts
 
 - debug: var=private_ip
 - debug: var=private_hostname

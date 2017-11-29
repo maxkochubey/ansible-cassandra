@@ -28,16 +28,16 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 - name: Set cassandra_config_dir fact (DCE)
-  when: install_version == "dce"
   set_fact: cassandra_config_dir=/etc/cassandra
+  when: install_version == "dce"
 
 - name: Set cassandra_config_dir fact (DSE)
-  when: install_version == "dse"
   set_fact: cassandra_config_dir=/etc/dse/cassandra
+  when: install_version == "dse"
 
 - name: Set cassandra_config_dir fact (Apache)
-  when: install_version == "apache"
   set_fact: cassandra_config_dir=/etc/cassandra
+  when: install_version == "apache"
 
 - name: Check for cassandra_config_dir existence
   stat: path={{ cassandra_config_dir }}
@@ -90,8 +90,8 @@
   register: system_log_file
 
 - name: Clear Cassandra system.log
-  when: system_log_file.stat.exists == True
   shell: echo > /var/log/cassandra/system.log
+  when: system_log_file.stat.exists == true
 
 - name: Install Datastax Community Cassandra & tools
   when: install_version == "dce"

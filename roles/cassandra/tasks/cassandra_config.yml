@@ -111,10 +111,11 @@
 
 - name: Install Apache Cassandra
   when: install_version == "apache"
-  apt: pkg={{item}} state=present
+  apt: pkg={{item}} state=latest
   register: cassandra_installed_apache
   with_items:
-  - cassandra={{ cassandra_version }}
+  - cassandra
+  - cassandra-tools
 
 - name: get cassandra_installed variable (DCE)
   set_fact: cassandra_installed="{{ cassandra_installed_dce.changed }}"

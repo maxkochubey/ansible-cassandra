@@ -33,7 +33,6 @@
 <CASSANDRA_NODE4> node_ip=<CASSANDRA_NODE4_IP> repair_weekday=THU,SUN seed=true dc=DC1 rack=RAC1
 
 [plain_cassandra_nodes:vars]
-collect_ec2_facts=false
 spark_enabled=false
 
 [spark_nodes]
@@ -86,6 +85,7 @@ ansible_ssh_private_key_file=<SSH_PEM>
 ansible_ssh_user=ubuntu
 install_user=ubuntu
 deployment_environment=aws
+collect_ec2_facts=false
 install_version=dce
 opscenter_enabled=true
 dse_username=<DSE user>

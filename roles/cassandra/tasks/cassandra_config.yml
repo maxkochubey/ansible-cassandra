@@ -193,7 +193,7 @@
   when: "{{ empty_cluster | default(false) }} == true"
   command: "sed -i -e '/#auto_boostrap/s/#auto_boostrap/auto_boostrap/' {{ cassandra_config_dir }}/cassandra.yaml"
 
-- include: dse_config.yml
+- include_tasks: dse_config.yml
   when: install_version == "dse"
 
 - name: Cassandra DCE startup

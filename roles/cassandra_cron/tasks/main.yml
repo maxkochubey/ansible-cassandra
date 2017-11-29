@@ -30,7 +30,7 @@
 - name: Create repair cron job entry
   cron:
     name: "nodetool repair"
-    user: "{{ install_user }}"
+    user: "cassandra"
     weekday: "{{ repair_weekday }}"
     minute: "{{ repair_start_minute | default('0') }}"
     hour: "{{ repair_start_hour | default('3') }}"

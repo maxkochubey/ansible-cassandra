@@ -47,6 +47,22 @@
 #
 # To target specific node/nodes, add -l node1[:node2][:nodeN]
 
+- hosts:
+    - all_cassandra_nodes
+  user: install_user
+  become: true
+  gather_facts: false
+  pre_tasks:
+    - name: Install python2 for Ansible
+      raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"
+      register: output
+      changed_when:
+        - output.stdout != ""
+        - output.stdout != "\r\n"
+    - name: Gathering Facts
+      setup:
+  tags: cassandra_common
+
 - name: Cassandra base requirements installation
   hosts:
     - all_cassandra_nodes

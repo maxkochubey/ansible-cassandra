@@ -34,7 +34,7 @@
 - debug: var=spark_master_ip
 - name: Create spark ssh key
   local_action: command ssh-keygen -t rsa -P '' -f /tmp/spark_ssh creates=/tmp/spark_ssh
-  sudo: no
+  become: false
   run_once: True
 - name: Create spark group
   group: name=spark state=present

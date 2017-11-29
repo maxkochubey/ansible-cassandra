@@ -33,6 +33,7 @@
 <CASSANDRA_NODE4> node_ip=<CASSANDRA_NODE4_IP> repair_weekday=THU,SUN seed=true dc=DC1 rack=RAC1
 
 [plain_cassandra_nodes:vars]
+collect_ec2_facts=false
 spark_enabled=false
 
 [spark_nodes]

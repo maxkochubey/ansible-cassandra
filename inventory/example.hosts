@@ -90,3 +90,6 @@ install_version=dce
 opscenter_enabled=true
 dse_username=<DSE user>
 dse_password=<DSE password>
+cluster_name=cassandra_cluster_1
+num_tokens=256
+

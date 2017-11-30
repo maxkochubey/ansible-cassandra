@@ -126,6 +126,14 @@
 - name: get cassandra_installed variable (Apache)
   set_fact: cassandra_installed="{{ cassandra_installed_apache.changed }}"
 
+- name: Get installed Cassandra version
+  shell: "dpkg -l | grep ' cassandra ' | awk '{print $3}'"
+  register: cassandra_installed_apache_version
+
+- set_fact: cassandra_version="{{ cassandra_installed_apache_version.stdout }}"
+
+- debug: var=cassandra_version
+
 - name: Wait for server autostart
   wait_for: path=/var/log/cassandra/system.log search_regex="Starting listening for CQL clients"
   when:
@@ -179,19 +187,19 @@
   file: path=/data/cassandra/hints state=directory owner=cassandra group=cassandra mode=0755
 
 - name: Backup original cassandra.yaml
-  command: "cp {{ cassandra_config_dir }}/cassandra.yaml {{ cassandra_config_dir }}/cassandra.yaml.orig.{{ cassandra_version }} creates={{ cassandra_config_dir }}/cassandra.yaml.orig.{{ cassandra_version }}"
+  command: "cp {{ cassandra_config_dir }}/cassandra.yaml {{ cassandra_config_dir }}/cassandra.yaml.{{ cassandra_version }}.bak creates={{ cassandra_config_dir }}/cassandra.yaml.{{ cassandra_version }}.bak"
 
 - name: Backup original cassandra-env.sh
-  command: "cp {{ cassandra_config_dir }}/cassandra-env.sh {{ cassandra_config_dir }}/cassandra-env.sh.orig.{{ cassandra_version }} creates={{ cassandra_config_dir }}/cassandra-env.sh.orig.{{ cassandra_version }}"
+  command: "cp {{ cassandra_config_dir }}/cassandra-env.sh {{ cassandra_config_dir }}/cassandra-env.sh.{{ cassandra_version }}.bak creates={{ cassandra_config_dir }}/cassandra-env.sh.{{ cassandra_version }}.bak"
 
 - name: Backup original cassandra-rackdc.properties
-  command: "cp {{ cassandra_config_dir }}/cassandra-rackdc.properties {{ cassandra_config_dir }}/cassandra-rackdc.properties.orig.{{ cassandra_version }} creates={{ cassandra_config_dir }}/cassandra-rackdc.properties.orig.{{ cassandra_version }}"
+  command: "cp {{ cassandra_config_dir }}/cassandra-rackdc.properties {{ cassandra_config_dir }}/cassandra-rackdc.properties.{{ cassandra_version }}.bak creates={{ cassandra_config_dir }}/cassandra-rackdc.properties.{{ cassandra_version }}.bak"
 
 - name: Backup original cassandra-topology.properties
-  command: "cp {{ cassandra_config_dir }}/cassandra-topology.properties {{ cassandra_config_dir }}/cassandra-topology.properties.orig.{{ cassandra_version }} creates={{ cassandra_config_dir }}/cassandra-topology.properties.orig.{{ cassandra_version }}"
+  command: "cp {{ cassandra_config_dir }}/cassandra-topology.properties {{ cassandra_config_dir }}/cassandra-topology.properties.{{ cassandra_version }}.bak creates={{ cassandra_config_dir }}/cassandra-topology.properties.{{ cassandra_version }}.bak"
 
 - name: Backup original jvm.options
-  command: "cp {{ cassandra_config_dir }}/jvm.options {{ cassandra_config_dir }}/jvm.options.orig.{{ cassandra_version }} creates={{ cassandra_config_dir }}/jvm.options.orig.{{ cassandra_version }}"
+  command: "cp {{ cassandra_config_dir }}/jvm.options {{ cassandra_config_dir }}/jvm.options.{{ cassandra_version }}.bak creates={{ cassandra_config_dir }}/jvm.options.{{ cassandra_version }}.bak"
 
 - name: Template cassandra.yml
   template: "src=cassandra.yaml.j2 dest={{ cassandra_config_dir }}/cassandra.yaml mode=0664"

@@ -1,0 +1,11 @@
+---
+
+- name: Copy jmx_exporter jar to CASSANDRA_HOME dir
+  copy:
+    src: jmx_prometheus_javaagent-0.1.0.jar
+    dest: /usr/share/cassandra/lib/jmx_prometheus_javaagent-0.1.0.jar
+
+- name: Template cassandra.yml
+  template:
+    src: jmx_prometheus.yml.j2
+    dest: "{{ cassandra_config_dir }}/jmx_prometheus.yml"

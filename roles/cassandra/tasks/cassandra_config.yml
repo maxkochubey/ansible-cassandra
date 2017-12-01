@@ -132,7 +132,8 @@
 
 - set_fact: cassandra_version="{{ cassandra_installed_apache_version.stdout }}"
 
-- debug: var=cassandra_version
+- include_tasks: prometheus_exporter.yml
+  when: prometheus_exporter_enabled | default(true) | bool
 
 - name: Wait for server autostart
   wait_for: path=/var/log/cassandra/system.log search_regex="Starting listening for CQL clients"
